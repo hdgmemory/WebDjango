@@ -1,0 +1,36 @@
+{%  extends  'command/base_goods.html'%}
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+
+   <div class="store_all">
+        <div class="store_left">
+            <ul>
+               <li style="color: #ffffff;"><a href="{% url 'web:store_detail' manage_id %}">全部类型</a></li>
+               
+                    {% for type in type %}
+                    <li><a href="{% url 'web:store_type' manage_id  type.type_id %}">{{ type.type_name }}</a></li>
+                    {% endfor %}
+            </ul>
+
+        </div>
+        <div class="store_right">
+            {% for goods_list in goods_list %}
+            <dl>
+                <dt> <a href="{% url  'web:goods_detail' goods_list.id %}" target="_blank">
+                    <img src="{% static goods_list.goods_pic %}"/> </a></dt>
+                <dd align="center">
+                    <p style="font-size: 18px; font-family: '微软雅黑'; color: #2b542c;">
+                       
+                            <a href="{% url  'web:goods_detail' goods_list.id %}" target="_blank">{{ goods_list.goods_name }}</a>...
+                       
+                     </p>
+                    <p style="font-family: '微软雅黑'; font-size: 18px; line-height: 50px; color: #eb7350">￥{{ goods_list.goods_xprice }}元</p>
+                </dd>
+            </dl>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

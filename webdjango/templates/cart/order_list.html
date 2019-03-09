@@ -1,0 +1,58 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+
+
+<form method="post" action="{% url 'cart:order_add' %}">
+       {% csrf_token %}
+        <div class="cart_list">
+        <div class="cart_top">填写并核对订单信息</div>
+        <div class="cart_listbox">
+            <p>收货人信息 <a href="#">新增收货地址</a></p>
+            {% for adress in adress %}
+            <p style="line-height: 50px;font-family:"宋体";border:1px dotted grey;><input type="radio" value="{{ adress.address_id }}" name="address" checked/>
+           姓名: {{ adress.uname }} 电话：{{ adress.tel }}  地址:{{ adress.address }}
+            </p>
+            {% endfor %}
+
+        </div>
+        <div class="cart_top">配送信息</div>
+        <div class="cart_listbox">
+             <table width="100%" cellpadding="0" cellspacing="0">
+                <tr >
+                    <th style='width:10%'>商品名称</th>
+                    <th style='width:25%'>商品缩略图</th>
+                    <th style='width:25%'>商品单价</th>
+                    <th style='width:25%'>商品数量</th>
+                    <th style='width:10%'>商品小计</th>
+                </tr>
+                {% for cart in cart %}
+                <tr>
+                        <td><a href="#">{{ cart.goods_name }}</a></td>
+                            <td><a href="#"><img src="{% static cart.goods_pic %}" /></a></td>
+                        <td>￥{{ cart.goods_xprice }}元</td>
+                        <td>{{ cart.num }}</td>
+                        <td>￥{{ cart.xiaoji }}</td>
+                </tr>
+               {% endfor %}
+                <tr>
+                    <td colspan="5" style="text-align: right; padding-right: 10px;"><a href="{% url 'cart:cart_list' %}">返回购物车修改</a></td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align: right; padding-right: 10px;">总计：{{ sum.total|floatformat:2}}元</td>
+                </tr>
+             <tr>
+                    <td colspan="5" style="text-align: right; padding-right: 10px;">
+                        <input type="hidden" value="{{ sum.total }}" name="total"/>
+                        <input type="submit" value="提交订单" class="btn"  /></td>
+                </tr>
+            </table>
+
+        </div>
+
+
+
+    </div>
+    </form>
+{% endblock %}

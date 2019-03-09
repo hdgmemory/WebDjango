@@ -1,0 +1,134 @@
+{% extends 'command/base_index.html' %}
+{% load static %}
+{% block content %}
+    <div class="layui-anim layui-anim-up">
+     <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">订单管理</a>
+        <a href="{% url 'goods_list' %}">订单列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+{#    CTS#}
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+          <input class="layui-input" placeholder="开始日" name="start" id="start" lay-key="1">
+          <input class="layui-input" placeholder="截止日" name="end" id="end" lay-key="2">
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付状态</option>
+              <option>已支付</option>
+              <option>未支付</option>
+            </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="支付状态" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="支付状态" class="layui-this">支付状态</dd><dd lay-value="已支付" class="">已支付</dd><dd lay-value="未支付" class="">未支付</dd></dl></div>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option>支付方式</option>
+              <option>支付宝</option>
+              <option>微信</option>
+              <option>货到付款</option>
+            </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="请选择" value="支付方式" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="支付方式" class="layui-this">支付方式</dd><dd lay-value="支付宝" class="">支付宝</dd><dd lay-value="微信" class="">微信</dd><dd lay-value="货到付款" class="">货到付款</dd></dl></div>
+          </div>
+          <div class="layui-input-inline">
+            <select name="contrller">
+              <option value="">订单状态</option>
+              <option value="0">待确认</option>
+              <option value="1">已确认</option>
+              <option value="2">已收货</option>
+              <option value="3">已取消</option>
+              <option value="4">已完成</option>
+              <option value="5">已作废</option>
+            </select><div class="layui-unselect layui-form-select"><div class="layui-select-title"><input type="text" placeholder="订单状态" value="" readonly="" class="layui-input layui-unselect"><i class="layui-edge"></i></div><dl class="layui-anim layui-anim-upbit"><dd lay-value="" class="layui-select-tips">订单状态</dd><dd lay-value="0" class="">待确认</dd><dd lay-value="1" class="">已确认</dd><dd lay-value="2" class="">已收货</dd><dd lay-value="3" class="">已取消</dd><dd lay-value="4" class="">已完成</dd><dd lay-value="5" class="">已作废</dd></dl></div>
+          </div>
+          <input type="text" name="username" placeholder="请输入订单号" autocomplete="off" class="layui-input">
+          <button class="layui-btn" lay-submit="" lay-filter="sreach"><i class="layui-icon"></i></button>
+        </form>
+      </div>
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>订单id</th>
+            <th>订单号</th>
+            <th>订单时间</th>
+            <th>订单状态</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+        <tbody>
+          {% for item in order %}
+              <tr>
+            <td>{{ item.order_id }}</td>
+			 <td>{{ item.order_num}}</td>
+            <td>{{ item.order_time|date:"Y-m-d H:i:s"  }}</td>
+            <td>
+                {% if item.order_status == 0 %}
+                    未支付
+                {% elif  item.order_status == 1 %}
+                    已支付
+                {% elif  item.order_status == 2 %}
+                    已发货
+                {% elif  item.order_status == 3 %}
+                    已收货
+                {% endif %}
+            </td>
+
+            <td >
+				<a href="{% url 'dingdan_detail' item.order_id item.address_id %}">查看详情</a>
+            </td>
+          </tr>
+            {% empty %}
+              <tr align="center">
+           <td colspan="7">暂无订单,快去让人购买</td>
+           </tr>
+
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+
+
+    </div>
+{#    CTS课程开始  #}
+{#    <div class="page">#}
+{#        <div>#}
+{#          <a class="prev" href="">&lt;&lt;</a>#}
+{#          <a class="num" href="">1</a>#}
+{#          <span class="current">2</span>#}
+{#          <a class="num" href="">3</a>#}
+{#          <a class="num" href="">489</a>#}
+{#          <a class="next" href="">&gt;&gt;</a>#}
+{#        </div>#}
+{#    </div>#}
+{#    CTS课程结束  #}
+        <ul class="pagination" style="margin-left: 380px">
+        {% if has_pre %}
+            <li><a href="/myshop/dingdan_list?page={{ pre_page }}">上一页</a></li>
+        {% else %}
+            <li class="disabled"><a href="#">上一页</a></li>
+        {% endif %}
+
+        {% for num  in  range_page %}
+            {% if  num == page %}
+                <li class="active"><a href="/myshop/dingdan_list?page={{ num }}">{{ num }}</a></li>
+
+            {% else %}
+                <li><a href="/myshop/dingdan_list?page={{ num }}">{{ num }}</a></li>
+
+
+            {% endif %}
+
+        {% endfor %}
+
+        {% if has_next %}
+            <li><a href="/myshop/dingdan_list?page={{ next_page }}">下一页</a></li>
+        {% else %}
+            <li class="disabled"><a href="#">下一页</a></li>
+        {% endif %}
+
+    </ul>
+
+    </div>
+
+{% endblock %}
+

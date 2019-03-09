@@ -1,0 +1,66 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+    <div class="users_box">
+        <div class="users_box_top">会员注册</div>
+        <div class="users_box_bottom">
+            <div class="box_bottom_left"><img src="{% static 'web/images/huiyuan.jpg'  %}"/></div>
+            <div class="box_bottom_right">
+
+                <form method="post" action="{% url 'users:users_logindo' %}" onsubmit="return mysubmit()" >
+                  {% csrf_token %}
+                    <div>
+                        昵称：<input type="text" name="username" placeholder="请输入昵称" required="" id = "zhuce" class="input"/><span></span>
+                    </div>
+                    <div>
+                        密码：<input type="password" name="userpass" placeholder="请输入密码" required="" class="input"/>
+                    </div>
+                    <div >
+                        <input type="submit" id="submit"  value="注册会员" class="gouwu"/>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    $("[name='username']").focus();
+     $("[name='username']").blur(function () {
+        value = $(this).val();
+         if (value.length==0){
+            //把窗体变成红色
+             $(this).css({'border':'1px solid red'});
+             $(this).next().html("用户名为空")
+         }
+         else {
+              t = $(this);
+             $.post("{% url 'users:users_check' %}",{'value':value},function(res){
+                 if(res==1){
+                     t.css({'border':'1px solid red'});
+                     t.next().html("<img src='{% static 'web/images/f.png' %}'/>已被注册");
+                     f = false
+                 }
+                 else {
+                     t.css({"border":'1px soild green'});
+                     t.next().html("<img src='{% static 'web/images/r.png' %}'/>");
+                     f = true
+                 }
+             }
+         )
+    }
+     });
+
+function mysubmit() {
+     if(f==true){
+        return true
+         }
+     else {
+         return false
+     }
+    }
+
+</script>
+{% endblock %}

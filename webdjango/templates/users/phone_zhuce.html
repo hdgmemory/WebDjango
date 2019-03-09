@@ -1,0 +1,112 @@
+{%  extends  'command/base_goods.html'%}
+
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+
+
+    <div class="users_box">
+        <div class="users_box_top">会员手机注册</div>
+        <div class="users_box_bottom">
+            <div class="box_bottom_left"><img src="{% static 'web/images/huiyuan.jpg' %}"/></div>
+            <div class="box_bottom_right" style="float:left;margin-left:20px">
+
+                <form method="post" action="{% url 'users:phone_zhucedo' %}"  onsubmit="return mysubmit()" >
+                    {% csrf_token %}
+                    <div>
+                        手&nbsp;机：<input type="text" name="mobile" placeholder="请输入手机号" required="" id = "mobile" class="input" /><span></span>
+                    </div>
+                    <div>
+                        验证码：<input type="text" name="code" placeholder="请输入验证码" required="" style='width: 150px' class="input" id="code"/>
+                        <input class="huoqu" id="zphone" type="button" value=" 获取验证码 ">
+                         {% if messages %}
+                            {% for item in messages %}
+                                   <span  {% if item.tags %} class="{{ item.tags }}  {% endif %}">{{ item }}</span>
+                            {% endfor %}
+                            {% endif %}
+                    </div>
+                     <div>
+                        密&nbsp;码：<input type="password" name="userpass" placeholder="" required="" class="input"/>
+                    </div>
+                    <div >
+                        <input type="submit" id="submit" style="align:center"  value="注册会员" class="gouwu"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#mobile').blur(function (e) {
+            var mobile = $('#mobile').val();
+            var csrf = $("input[name='csrfmiddlewaretoken']").val();
+             t = $(this);
+            $.post("{%  url 'users:phone_hedui' %}",{"mobile":mobile,"csrfmiddlewaretoken":csrf},function(res){
+                    if(res==1){
+                     t.css({'border':'1px solid red'});
+                     t.next().html("<img src='{% static 'web/images/f.png' %}'/>已被注册");
+                     f = false
+                    }
+                    else {
+                     t.css({"border":'1px soild green'});
+                     t.next().html("<img src='{% static 'web/images/r.png' %}'/>");
+                     f = true
+                 }
+            })
+        });
+        function mysubmit() {
+         if(f==true){
+            return true
+             }
+         else {
+             return false
+         }
+    }
+        $('#zphone').click(function (e) {
+            //点击发送ajax,到send_message
+            var mobile = $('#mobile').val();
+            //csrf_token验证
+            var csrf = $("input[name='csrfmiddlewaretoken']").val();
+            $.post("{% url 'users:send_message' %}",{"mobile":mobile,"csrfmiddlewaretoken":csrf},function(res){
+                if(res.msg == '提交成功'){
+                    Readtime()
+                }
+        })
+        });
+        //验证码倒计时
+        var iTime = 70;
+        function Readtime() {
+            //点击一次之后，在倒计时的时候禁止用户点击
+            document.getElementById('zphone').disabled = true;
+            if (iTime>0){
+                //获取秒数
+                iSencode = iTime%60;
+                //获取分钟数
+                iMinute = parseInt(iTime/60) ;
+                if(iSencode>0){
+                    if (iMinute>0){
+                        rSecond = iMinute+'分'+iSencode+'秒'
+                    }else{
+                        rSecond = iSencode+'秒'
+                    }
+                }
+                 //赋值
+                sTime = rSecond;
+                if(iTime == 0){
+                    clearTimeout(timer);
+
+                    sTime = '获取验证码';
+                    iTime = 70
+                    document.getElementById('zphone').disdabled = false;
+                }else {
+                    timer = setTimeout('Readtime()',1000)
+                    iTime = iTime - 1
+                }
+            }
+            else {
+                sTime = '没有倒计时';
+            }
+            document.getElementById('zphone').value = sTime;
+        }
+    </script>
+{% endblock %}

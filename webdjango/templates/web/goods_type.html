@@ -1,0 +1,34 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+
+    <div class="goods_type">
+        <div class="type_list">类别：
+           <a href="{% url 'web:goods_type' %}">全部</a>
+                    {% for item in type_list %}
+                        <a href="{% url  'web:type_list' item.type_id  %}">{{ item.type_name }}</a>
+                    {% endfor %}
+           
+        </div>
+    </div>
+    <div class="type_list_box">
+            {% for li in goods_list %}
+            <div class="box_list">
+                <dl>
+                    <dt><a href="{% url 'web:goods_detail' li.id %}"><img src="{% static li.goods_pic  %}"/></a></dt>
+                    <dd align="center">
+                        <p>
+                        {{ li.goods_name }}
+                        </p>
+                        <p>￥{{ li.goods_price }}元</p>
+                    </dd>
+                </dl>
+            </div>
+                {% empty %}
+                <p>暂无商品，快去上架</p>
+            {% endfor %}
+
+       </div>
+
+{% endblock %}

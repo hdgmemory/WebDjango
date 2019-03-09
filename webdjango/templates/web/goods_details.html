@@ -1,0 +1,99 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+    <div class="goods_type">
+        <div class="goods_details"><a href="{% url 'web:index' %}">首页</a> >  {{ detail.goods_name }}</div>
+        <div class="goods_box">
+            <div class="box_pic"><img src="{% static detail.goods_pic %}"/></div>
+            <div class="box_details">
+                <form method="post" action="{% url 'cart:cart_add' %}">
+                   {% csrf_token %}
+                    <h1>{{ detail.goods_name }}</h1>
+                    <span style='font-size: 15px;'>{{ detail.goods_info }}</span>
+                    <div class="box_bg">价格：￥<span style="font-size: 40px; font-weight: bold; font-family:'微软雅黑';color:#FD482C ">{{ detail.goods_price }}</span>元&nbsp;&nbsp;原价:￥<s style='color: red'> 200</s></div>
+                    <div class="address">配送：{{ detail.goods_adress }}</div>
+                    <div class="address">存储方法：{{ detail.goods_method }}</div>
+                     <div class="address">库存：{{ detail.goods_count }}</div>
+                    <div class="num">数量：
+                        <input type="button" name="-" value="-" class="btn1" onclick="dec()"/>
+
+                        <input type="text" value="1" id="count" name="num" class="text1"/>
+
+                        <input type="button" name="+" value="+" class="btn1" onclick="add()"/> </div>
+
+                    <input type="hidden" name="goods_id" value="{{ detail.id }}">
+                    <input type="hidden" name="manage_id" value="{{ detail.manage_id }}">
+                    <input type="hidden" name="price" value="{{ detail.goods_xprice }}">
+                    <div class="btn2"><input type="submit" value="加入购物车" class="gouwu"/> </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var count ;
+        function add()
+        {
+            count = document.getElementById('count').value;
+            count++
+            document.getElementById('count').value = count;
+        }
+        function dec()
+        {
+            count = document.getElementById('count').value;
+            count--;
+            if(document.getElementById('count').value == 1)
+            {
+                document.getElementById('count').value = 1
+            }
+            else
+            {
+                document.getElementById('count').value = count;
+            }
+        }
+    </script>
+    <div class="goods_type1">
+        <div class="type1_left">
+            <div class="type1_top">其他商品</div>
+            <div class="type1_bottom">
+                {% for item in list %}
+                <dl>
+                    <dt><a href="#"><img src="{% static item.goods_pic %}"/> </a></dt>
+                    <dd>
+                        <span class="pname">
+                            <a href="#">{{ item.goods_name }}</a>
+                        </span>
+                        <p class="price">￥{{ item.goods_price }}</p>
+                    </dd>
+                </dl>
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="type1_right">
+            <div class="type1_top">商品详情</div>
+            <div class="type1_bottom">{{ detail.goods_content|safe }}</div>
+        </div>
+        <br/>
+        <div class="type1_right">
+            <div class="type1_top">商品评价</div>
+            <div class="type1_bottom">
+                {% for item in comment %}
+                     <div class="comment_box1">
+                        <span>会员:{{ item.username }}</span>&nbsp;&nbsp;&nbsp;
+                        <span>评论内容:{{ item.comment_content }}</span>
+                        <span style="float:right">评论时间:{{ item.comment_time }}</span>
+                     {% if item.status == 0 %}
+                     <p>卖家回复:暂无回复</p>
+                     {% elif item.status == 1 %}
+                     <span>
+                         <p>卖家回复: {{ item.huifu }}</p>
+                     </span>
+                     {% endif %}
+                     </div>
+               {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

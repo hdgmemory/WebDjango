@@ -1,0 +1,127 @@
+{% extends 'command/base_index.html' %}
+ {% block content %}
+    <div class="x-body layui-anim layui-anim-up">
+        <form action="{% url 'edit' %}" class="layui-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" value="{{ result.id }}" name="id"> <br>
+          <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>商品名称
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_username" name="goods_name" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_name }}">
+              </div>
+          </div>
+            <div class="layui-form-item">
+              <label for="L_username" class="layui-form-label">
+                  <span class="x-red">*</span>商品类型
+              </label>
+              <div class="layui-input-inline">
+                  <select name="type_id" id="">
+                      {% for i in type %}
+                          {% ifequal result.type_id  i.type_id %}
+                            <option value="{{ i.type_id }}" selected>{{ i.type_name }}</option>
+                            {% else %}
+                                <option value="{{ i.type_id }}" >{{ i.type_name }}</option>
+                          {% endifequal %}
+                      {% endfor %}
+                  </select>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_pass" class="layui-form-label">
+                  <span class="x-red">*</span>商品原价
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_pass" name="goods_price" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_price }}">
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>商品现价
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="goods_xprice" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_xprice }}">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>商品库存
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="goods_count" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_count }}" >
+              </div>
+          </div>
+		  <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>存储方法
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="goods_method" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_method }}">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>商品介绍
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="goods_info" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_info }}">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>商品缩略图
+              </label>
+              <div class="layui-input-inline">
+                  <input type="file" id="L_repass" name="goods_pic" required=""
+                  autocomplete="off" class="layui-input"  value="{{ result.goods_pic }}">
+              </div>
+          </div>
+		  <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+                  <span class="x-red">*</span>配送地址
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" id="L_repass" name="goods_address" required=""
+                  autocomplete="off" class="layui-input" value="{{ result.goods_address }}">
+              </div>
+          </div>
+		  <div class="layui-form-item layui-form-text">
+                    <label for="desc" class="layui-form-label">
+                        商品内容
+                    </label>
+                    <div class="layui-input-block">
+                         <textarea   cols="30" rows="10"  name="goods_content"></textarea>
+                    </div>
+              <script>
+                  //ckeditor  富文本编辑器
+                KindEditor.ready(function(res){
+                    res.create("textarea[name=goods_content]",{
+                    //设置属性
+                        width:"800px",
+                        height:"300px",
+                        uploadJson:"/ceshi/aaa"
+                    })
+                })
+              </script>
+                </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  修改
+              </button>
+
+          </div>
+      </form>
+    </div>
+
+
+{% endblock %}
+

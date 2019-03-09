@@ -1,0 +1,28 @@
+{%  extends  'command/base_goods.html'%}
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+    
+    <div class="goods_type">
+       
+    <div class="shop_box_top">
+            <span class="box_left">店铺</span>
+            <span class="box_right"><a href="#" target="_blank">更多>></a></span>
+        </div>
+    {% for manage_list in manage %}
+        <div class="box_list">
+            <dl align="center">
+
+                <dt><a href="{% url 'web:store_detail' manage_list.id%}"/><img src="{% static manage_list.shop_logo %}"/></a></dt>
+                    <dd>
+                        <p> <a href="#">{{ manage_list.shop_nickname }}</a></p>
+                        <p>掌柜：{{ manage_list.username }}&nbsp;&nbsp;<a href="{% url 'web:store_detail' manage_list.id %}">进店>></a></p>
+
+                    </dd>
+                </dl>
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

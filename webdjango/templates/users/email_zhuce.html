@@ -1,0 +1,33 @@
+{%  extends  'command/base_goods.html'%}
+
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+     <div class="users_box">
+        <div class="users_box_top">会员邮箱注册</div>
+        <div class="users_box_bottom">
+            <div class="box_bottom_left"><img src="{% static 'web/images/huiyuan.jpg' %}"/></div>
+            <div class="box_bottom_right" style="float:left;margin-left:20px">
+
+                <form method="post" action="{% url 'users:email_zhucedo' %}"  >
+                    {% csrf_token %}
+                    <div>
+                        邮&nbsp;箱：<input type="email" name="username" placeholder="请输入邮箱" required="" id = "email" class="input"/><span></span>
+                    </div>
+
+                     <div>
+                        密&nbsp;码：<input type="password" name="userpass" placeholder="" required="" class="input"/>
+                    </div>
+
+                    <div >
+                        <input type="submit" id="submit" style="align:center"  value="注册会员" class="gouwu"/>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'command/base_index.html' %}
+{% block content %}
+       <div class="x-body layui-anim layui-anim-up">
+        <form action="{% url 'comment_huifudo' %}" class="layui-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <input type="hidden" name="comment_id" value="{{ comment_id }}">
+            <input type="hidden" name="details_id" value="{{ details_id }}">
+		  <div class="layui-form-item layui-form-text">
+                    <label for="desc" class="layui-form-label">
+                        回复评论
+                    </label>
+                    <div class="layui-input-block">
+
+                        <textarea   cols="30" rows="10"  name="huifu"></textarea>
+                    </div>
+
+              <script>
+                  //ckeditor  富文本编辑器
+                KindEditor.ready(function(res){
+                    res.create("textarea[name=huifu]",{
+                    //设置属性
+                        width:"800px",
+                        height:"300px",
+                        uploadJson:"/ceshi/aaa"
+
+
+                    })
+
+                })
+
+
+              </script>
+
+
+
+              <script>
+
+
+
+              </script>
+                </div>
+          <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+
+          </div>
+      </form>
+    </div>
+
+{% endblock %}

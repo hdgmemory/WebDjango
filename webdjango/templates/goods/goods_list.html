@@ -1,0 +1,68 @@
+{% extends 'command/base_index.html' %}
+{% load static %}
+{% block content %}
+     <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="{% url 'goods_list' %}">商品列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+      <table class="layui-table">
+        <thead>
+          <tr>
+            <th>商品id</th>
+            <th>商品名称</th>
+            <th>商品类型</th>
+            <th>商品图片</th>
+            <th>商品原价</th>
+            <th>商品现价</th>
+            <th>商品库存</th>
+			<th>商品存储方法</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+        <tbody>
+        {% for li in list %}
+          <tr>
+            <td>{{ li.id }}</td>
+			 <td>{{ li.goods_name }}</td>
+			 <td>{{ li.type_name }}</td>
+			 <td><img src="{% static li.goods_pic %}" alt=""></td>
+            <td>{{ li.goods_price }}</td>
+            <td>{{ li.goods_xprice }}</td>
+            <td>{{ li.goods_count  }}</td>
+            <td>{{ li.goods_method }}</td>
+
+            <td >
+				<a href="{% url 'update' li.id %}">编辑</a>
+{#                <a href="{% url 'delete' li.id %}">删除</a>#}
+                <a href="javascript:;" onclick="del(this)" sc="{{ li.id }}">ajax删除</a>
+            </td>
+          </tr>
+            {% empty %}
+            <tr><td colspan="8" align="center">暂无商品，快去上架！</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+<script>
+    function del(obj) {
+        var id = $(obj).attr('sc');
+        layer.confirm('你确定要删除？',function (e) {
+            $.post('{% url 'dele' %}',{'id':id},function(res){
+                if(res == 1){
+                    layer.alert('删除成功',{icon:1},function (index) {
+                        $(obj).parents('tr').remove();
+                        layer.close(index)
+                        
+                    })
+                }
+            })
+        })
+        
+        }
+</script>
+
+{% endblock %}

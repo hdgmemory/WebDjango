@@ -1,0 +1,79 @@
+{% extends 'command/base_index.html' %}
+{% load static %}
+{% block content %}
+{#    <div class="layui-anim layui-anim-up">#}
+     <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">订单管理</a>
+        <a href="{% url 'goods_list' %}">订单详情</a>
+      </span>
+    </div>
+
+    <div class="x-body">
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>收件人</th>
+            <th>联系电话</th>
+            <th>收件地址</th>
+
+			</tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ add.uname }}</td>
+                <td>{{ add.tel }}</td>
+                <td>{{ add.address }}</td>
+            </tr>
+
+        </tbody>
+      </table>
+
+    <div class="x-body">
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>商品名称</th>
+            <th>商品图片</th>
+            <th>商品单价</th>
+            <th>商品数量</th>
+            <th>商品小计</th>
+			</tr>
+        </thead>
+        <tbody>
+          {% for item in order_detail %}
+              <tr>
+            <td>{{ item.goods_name }}</td>
+              <td><img src="{% static item.goods_pic %}"></td>
+			 <td>{{ item.goods_nprice}}</td>
+			 <td>{{ item.goods_num}}</td>
+			 <td>{{ item.goods_xiaoji}}</td>
+
+          </tr>
+
+
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+
+      <form action="{% url 'manage_status' %}" method="post">
+            {% csrf_token %}
+            {% if order.order_status == 1 %}
+              <div class="layui-form-item">
+                  <input type="hidden" value="{{ order.order_id  }}" name="order_id">
+                  <input type="submit" value="点击发货" class="layui-btn">
+              </div>
+            {% endif %}
+
+          </form>
+
+    </div>
+
+
+
+    </div>
+
+{% endblock %}
+

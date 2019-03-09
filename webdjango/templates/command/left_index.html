@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <!-- 左侧菜单开始 -->
+    <div class="left-nav">
+      <div id="side-nav">
+        <ul id="nav">
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6b8;</i>
+                    <cite>商品管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{% url 'goods_list' %}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>商品列表</cite>
+
+                        </a>
+                    </li >
+                    <li>
+                        <a _href="{% url 'goods_add' %}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>商品添加</cite>
+
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6b8;</i>
+                    <cite>订单管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{% url 'dingdan_list' %}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>订单列表</cite>
+
+                        </a>
+                    </li >
+
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:;">
+                    <i class="iconfont">&#xe6b8;</i>
+                    <cite>评论管理</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+                <ul class="sub-menu">
+                    <li>
+                        <a _href="{% url 'manage_comment' %}">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>评论列表</cite>
+
+                        </a>
+                    </li >
+
+                </ul>
+            </li>
+
+        </ul>
+      </div>
+    </div>
+    <!-- <div class="x-slide_left"></div> -->
+    <!-- 左侧菜单结束 -->
+</body>
+</html>

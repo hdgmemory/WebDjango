@@ -1,0 +1,38 @@
+ <!-- 头部开始 -->
+   <div class="header">
+       {% if request.session.user %}
+        <ul>
+            <li><a href="{% url 'web:openstore' %}">[免费开店]</a></li>
+{#             <li><a href="">[购物车]</a></li>#}
+             <li><a href="{% url 'users:users_zhuce' %}">[普通注册]</a></li>
+             <li><a href="{% url 'users:phone_zhuce' %}">[手机号注册]</a></li>
+            <li><a href="{% url 'users:email_zhuce' %}">[邮箱注册]</a></li>
+            <li><a href="{% url 'users:users_login' %}">[登录]</a></li>
+            <li><a href="{% url 'users:users_logout' %}">[注销]</a></li>
+            <li><span style="color: deeppink">欢迎您{{ request.session.user }}</span></li>
+        </ul>
+       {% else %}
+       <ul>
+            <li><a href="{% url 'web:openstore' %}">[免费开店]</a></li>
+{#             <li><a href="">[购物车]</a></li>#}
+             <li><a href="{% url 'users:users_zhuce' %}">[普通注册]</a></li>
+           <li><a href="{% url 'users:phone_zhuce' %}">[手机号注册]</a></li>
+            <li><a href="{% url 'users:email_zhuce' %}">[邮箱注册]</a></li>
+            <li><a href="{% url 'users:users_login' %}">[登录]</a></li>
+       </ul>
+       {% endif %}
+    </div>
+
+
+    <div class="header_logo">
+            <div class="logo"></div>
+            <div class="nav">
+                <ul>
+                    <li><a href="{% url 'web:index' %}">首页<br/>Home</a></li>
+                    <li><a href="{% url 'web:goods_type' %}">鲜果<br/>Fruit</a></li>
+                    <li><a href="{% url 'web:all_store' %}">店铺<br/>Shop</a></li>
+                    <li><a href="{% url 'web:user_center' %}">个人中心<br/>VIP Club</a></li>
+                </ul>
+            </div>
+    </div>
+    <!-- 头部结束 -->

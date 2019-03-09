@@ -1,0 +1,31 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+    <div class="users_box">
+        <div class="users_box_top">会员登录</div>
+        <div class="users_box_bottom">
+            <div class="box_bottom_left"><img src="{% static 'web/images/huiyuan.jpg'  %}"/></div>
+            <div class="box_bottom_right">
+
+                <form method="post" action="{% url 'users:users_denglu' %}">
+                   {% csrf_token %}
+                    <div>
+                        昵称：<input type="text" name="username" placeholder="请输入昵称" class="input"/>
+                    </div>
+                    <div>
+                        密码：<input type="password" name="userpass" placeholder="请输入密码" class="input"/>
+                    </div>
+                    <div>
+                        <input type="submit" value="登录" class="gouwu"/>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+
+    </div>
+
+{% endblock %}

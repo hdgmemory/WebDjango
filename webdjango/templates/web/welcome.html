@@ -1,0 +1,12 @@
+{%  extends  'command/base_goods.html'%}
+
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+
+       <!-- 头部结束 -->
+    <p style="font-size: 25px; width: 1400px; height: 30px;  margin: auto" align="center">欢迎您开店成功！请登录<a href="{% url 'login' %}" style="color: red">卖家后台</a>后迅速更改账号密码，以防被盗</p>
+
+
+{% endblock %}

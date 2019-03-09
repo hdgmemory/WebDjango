@@ -1,0 +1,68 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+
+    <div class="cart_list">
+        <div class="cart_top">我的购物车</div>
+        <div class="cart_listbox">
+            <table width="100%" cellpadding="0" cellspacing="0" border='0px'>
+                <tr>
+                    <th width='10%'>商品名称</th>
+                    <th width='20%'>商品缩略图</th>
+                    <th width='20%'>商品单价</th>
+                    <th width='20%'>商品数量</th>
+                    <th width='20%'>商品小计</th>
+                    <th width='10%'>操作</th>
+                </tr>
+                    {% for item in cart_list %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <tr>
+                        <td><a href="#">{{ item.goods_name }}</a></td>
+                        <td><a href="#"><img src="{% static item.goods_pic %}" width="50" height="50"/></a></td>
+                        <td>￥{{ item.goods_xprice }}元</td>
+                        <td>
+                            <input type="submit" name="-" value="-" class="btn1" formaction="{% url 'cart:cart_jian' item.cart_id %}" />
+                            <input type="text" value="{{ item.num }}" name="num" class="text1"/>
+                            <input type="submit" name="+" value="+" class="btn1" formaction="{% url 'cart:cart_jia' item.cart_id %}"/></td>
+                        <td>￥{{ item.xiaoji }}</td>
+                        <td><a href="{% url 'cart:cart_del' item.cart_id %}">删除</a></td>
+                    </form>
+                </tr>
+                {% empty %}
+                    <tr>
+                    <td colspan="6" style="text-align: center;">购物车空空如也~~，请快去购物吧！</td>
+                    </tr>
+                {% endfor %}
+
+            </table>
+            <div class="goon">
+                <div class="clearcart">
+                    <a href="{% url 'cart:cart_empty' %}"><input type="button" value="清空购物车" class="btn" /></a>
+                </div>
+                <div class="totalprice">
+                {% if sum.total is not None  %}
+                 总计{{ sum.total|floatformat:2 }}元
+                {% else %}
+                    总计0元
+                {% endif %}
+                </div>
+
+            </div>
+           
+           
+            <div class="order">
+                    <input type="button" value="立即下单" class="btn" onclick="order_list()"/>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+    function order_list() {
+        window.location.href="{% url 'cart:order_list' %}"
+    }
+    </script>
+{% endblock %}

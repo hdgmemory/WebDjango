@@ -1,0 +1,72 @@
+{%  extends  'command/base_goods.html'%}
+
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+
+{#        <div id="lunbo"> </div>#}
+        <div class="box"><img style="width: 1400px;height: 300px;" id="wap" src="{% static 'web/img/3.jpg' %}" alt="加载失败"></div>
+        <ul class="bb">
+            <li style="background:blue;"></li>
+            <li></li>
+            <li></li>
+        </ul>
+
+        <div class="shop_list">
+            <div class="list1_box">
+
+               {% for  item  in  list %}
+                    <div class="list_box">
+                    <dl>
+                        <dt><a href="{% url  'web:goods_detail' item.id %}"><img src="{% static item.goods_pic %}"/> </a></dt>
+                        <dd align="center">
+                            <p>{{ item.goods_name }}</p>
+                            <p>￥{{ item.goods_price }}元</p>
+                        </dd>
+                    </dl>
+                </div>
+
+
+                {% endfor %}
+        </div>
+        </div>
+    <script>
+        var oBox = document.getElementsByClassName('box')[0];
+        var oBigPic = oBox.getElementsByTagName('img')[0];
+        var oBtn = document.getElementsByClassName('bb')[0];
+        var oSmallPic = oBtn.getElementsByTagName('li');
+        var list = ["{% static 'web/img/1.jpg' %}","{% static 'web/img/2.jpg' %}","{% static 'web/img/5.jpg' %}"];
+        var index = 0;
+        var timer;
+        function fn() {
+            timer = setInterval(function () {
+            oBigPic.src = list[this.index];
+            index++;
+            if(index>oSmallPic.length-1){
+                index=0;
+            }
+        },1500);
+        }
+        fn();
+//        鼠标移入停止轮播
+        for(var i=0;i<oSmallPic.length;i++){
+            oSmallPic[i].index=i;
+            oSmallPic[i].onmouseover = function () {
+//                console.log(this.index)
+                oBigPic.src = list[this.index];
+                clearInterval(timer);
+//                oSmallPic[i].style.backgroundColor='grey';
+            };
+//            oSmallPic[this.index].style.backgroundColor='blue';
+        }
+////        鼠标移除，自动轮播
+        for (var j=0;j<oSmallPic.length;j++){
+            oSmallPic[j].index=j;
+            oSmallPic[j].onmouseout =function () {
+            fn();
+        }
+            }
+    </script>
+
+{% endblock %}

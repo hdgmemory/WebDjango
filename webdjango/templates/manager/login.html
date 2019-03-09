@@ -1,0 +1,77 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全球生鲜卖家管理后台页面</title>
+{#    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />#}
+    <link rel="stylesheet" href="{% static 'manager/css/font.css' %}">
+	<link rel="stylesheet" href="{% static 'manager/css/xadmin.css' %}">
+     <script src="{% static 'bootstrap/js/jquery-1.9.3.min.js' %}"></script>
+
+</head>
+<body class="login-bg">
+    <div class="login layui-anim layui-anim-up">
+        <div class="message">全球生鲜卖家管理后台页面</div>
+        <div id="darkbannerwrap"></div>
+
+        <form method="post" class="layui-form" action="{% url 'logindo' %}"  onsubmit="return mysubmit()">
+            {% csrf_token %}
+            <input name="username" placeholder="用户名"  type="text" lay-verify="required" class="layui-input" >
+            <hr class="hr15">
+            <input name="code" id="code" placeholder="验证码"   type="text"  onblur="check_code()" lay-verify="required" class="layui-input"  style="width:30%;float:left">
+            <span style="float:left;margin-left:10px"><img src="{% url 'verify_code' %}"  id="verify_code" onclick="new_code()" alt=""></span>
+            <span  id="tishi" style="display: inline-block;margin:10px 0px  0px 5px;"></span>
+            <hr class="hr15">
+            <input name="userpass" lay-verify="required" placeholder="密码"  type="password" class="layui-input">
+            <hr class="hr15">
+            <input value="登录" lay-submit lay-filter="login" style="width:100%;" type="submit">
+            <hr class="hr20" >
+            <p>初始化密码为:000000,为了您的账号安全,请登录后迅速修改您的密码！</p>
+        </form>
+    </div>
+</body>
+</html>
+
+<script>
+   function check_code(){
+        var code = $("#code").val()
+        $.ajax({
+        url:"{% url 'check_code' %}",
+        data:{"code":code},
+        type:"get",
+        async:true,
+        //指明后端接收的是json的格式
+        contentType:"application/json",
+        success:function(res){
+            res = JSON.parse(res)
+
+            if(res.status==0){
+                //验证码错误
+                //换一个验证码
+                $("#tishi").html("<img src='{% static "web/images/f.png" %}' /> <span style='color:red'>验证码错误</span>")
+                new_code()
+                flag = false
+            }else{
+                //正确
+                $("#tishi").html("<img src='{% static "web/images/r.png" %}' /> <span  style='color:green'>验证码正确</span>")
+                flag = true
+            }
+        }
+        })
+    }
+    function new_code() {
+        t = Math.random(0,1000);
+        $("#verify_code").attr("src","/myshop/verify_code?1234="+t)
+    }
+    flag =false;
+    function mysubmit() {
+        if(flag){
+            return true
+        }
+        else {
+            return false;
+        }
+
+    }
+</script>

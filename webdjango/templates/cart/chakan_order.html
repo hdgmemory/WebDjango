@@ -1,0 +1,63 @@
+{% extends 'command/base_goods.html' %}
+{% block goods %}
+{% load static %}
+{% include 'command/base_header.html' %}
+    
+	<div class="cart_list">
+        <div class="cart_top">恭喜您已经成功提交订单</div>
+        <div class="cart_listbox">
+            订单编号：{{ order.order_num }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>订单总金额：￥<span style="color: #eb7350; font-weight: bold; font-size: 25px">{{ order.total }}</span>元
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span></span><a href="{% url 'web:order_xiang' order.address_id  order.order_id %}" target="_blank   ">查看订单详情</a></span>
+           &nbsp;&nbsp; <span></span>
+            {% ifequal order.order_status 1 %}
+                <a href="#" target="_blank">已支付</a>
+            {% else %}
+                <a href="{% url 'cart:alipy' order.order_num  order.total %}" target="_blank">去支付</a>
+
+            {% endifequal %}
+        </div>
+    </div>   
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

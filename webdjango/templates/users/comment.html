@@ -1,0 +1,36 @@
+{%  extends  'command/base_goods.html'%}
+
+{%  block  goods %}
+{% load static %}
+
+{% include  'command/base_header.html' %}
+    <!-- 头部结束 -->
+      <div class="store">
+        <p>商品评论</p>
+        <div class="store_box">
+        <form method="post" action="{% url 'users:commentdo' %}"  >
+
+            {% csrf_token %}
+
+            <div class="line">
+                <label>商品评论</label>
+                <input type="hidden" name="details_id" value="{{ details_id }}">
+                 <input type="text" name="comment_content" class="input"/>
+            </div>
+
+
+            <div class="line">
+                <label></label>
+                <input type="submit" value="评论" class="btn"/>
+            </div>
+        </form>
+
+
+        </div>
+   </div>
+
+
+
+
+
+{% endblock %}

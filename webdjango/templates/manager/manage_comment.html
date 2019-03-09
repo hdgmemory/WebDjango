@@ -1,0 +1,63 @@
+{% extends 'command/base_index.html' %}
+{% load static %}
+{% block content %}
+    <div class="layui-anim layui-anim-up">
+     <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">商品管理</a>
+        <a href="{% url 'goods_list' %}">商品列表</a>
+      </span>
+    </div>
+    <div class="x-body">
+      <table class="layui-table">
+        <thead>
+          <tr>
+		    <th>评论人</th>
+            <th>商品名称</th>
+            <th>商品图片</th>
+            <th>评论内容</th>
+            <th>回复内容</th>
+            <th>操作</th>
+			</tr>
+        </thead>
+        <tbody>
+          {% for item in result %}
+              <tr>
+            <td>{{ item.username }}</td>
+            <td>{{ item.goods_name }}</td>
+			 <td><img src="{% static item.goods_pic %}" width="50" height="50" alt=""></td>
+            <td>{{ item.comment_content  }}</td>
+            <td>
+                {% if item.huifu  %}
+                    {{ item.huifu }}
+                {% else %}
+                    暂无回复
+                {% endif %}
+            </td>
+            <td >
+				{% if item.status == 0 %}
+                   <a href="{% url 'manage_commentdo' item.comment_id  item.details_id %}">回复</a>
+                {% elif item.status == 1 %}
+                    <a href="">已回复</a>
+                {% endif %}
+            </td>
+          </tr>
+            {% empty %}
+              <tr align="center">
+           <td colspan="6">暂无评论</td>
+           </tr>
+
+
+          {% endfor %}
+
+        </tbody>
+      </table>
+
+    </div>
+
+
+
+    </div>
+
+{% endblock %}
+
